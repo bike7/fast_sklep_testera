@@ -1,10 +1,10 @@
-package pl.akademiaqa.page_objects.sections;
+package pl.akademiaqa.page_objects.sections.search;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import pl.akademiaqa.page_objects.common.BasePage;
+import pl.akademiaqa.page_objects.common.BaseSection;
 
-public class TopNavigationSection extends BasePage {
+public class TopNavigationSection extends BaseSection {
     private Locator languageSelector;
     private Locator englishLanguageOption;
     private Locator polishLanguageOption;

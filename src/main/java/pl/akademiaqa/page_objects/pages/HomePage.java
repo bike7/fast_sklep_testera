@@ -4,8 +4,8 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitUntilState;
 import lombok.Getter;
 import pl.akademiaqa.page_objects.common.BasePage;
-import pl.akademiaqa.page_objects.sections.TopMenuAndSearchSection;
-import pl.akademiaqa.page_objects.sections.TopNavigationSection;
+import pl.akademiaqa.page_objects.sections.search.TopMenuAndSearchSection;
+import pl.akademiaqa.page_objects.sections.search.TopNavigationSection;
 import pl.akademiaqa.page_objects.utils.Properties;
 
 @Getter
