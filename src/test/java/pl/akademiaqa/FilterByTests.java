@@ -1,6 +1,5 @@
 package pl.akademiaqa;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,6 +10,8 @@ import pl.akademiaqa.page_objects.sections.products.FilterBySection;
 import pl.akademiaqa.page_objects.sections.search.TopNavigationSection;
 
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FilterByTests extends TestFixtures {
 
@@ -29,7 +30,7 @@ public class FilterByTests extends TestFixtures {
                 .getProductsSection()
                 .getProductCount();
 
-        Assertions.assertThat(actualProductCount).isEqualTo(expectedProductCount);
+        assertThat(actualProductCount).isEqualTo(expectedProductCount);
     }
 
     private static Stream<Arguments> provideFilterData() {
