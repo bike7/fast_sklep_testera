@@ -1,15 +1,14 @@
-package pl.akademiaqa.page_objects.sections;
+package pl.akademiaqa.page_objects.sections.search;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import pl.akademiaqa.page_objects.common.BasePage;
+import pl.akademiaqa.page_objects.common.BaseSection;
 import pl.akademiaqa.page_objects.pages.ArtPage;
 import pl.akademiaqa.page_objects.pages.SearchResultsPage;
 
-public class TopMenuAndSearchSection extends BasePage {
+public class TopMenuAndSearchSection extends BaseSection {
     private Locator searchInput;
-
     private Locator artLink;
 
     public TopMenuAndSearchSection(Page page) {
