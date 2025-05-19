@@ -5,13 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.page_objects.pages.ArtPage;
 import pl.akademiaqa.page_objects.pages.HomePage;
 import pl.akademiaqa.page_objects.sections.search.TopNavigationSection;
-import pl.akademiaqa.page_objects.pages.ArtPage;
 
 import java.util.List;
 
-class FilterBrPriceTests extends TestFixtures {
+class FilterByPriceTests extends TestFixtures {
 
     private ArtPage artPage;
     private final Double priceThreshold = 40.0;

@@ -26,4 +26,8 @@ public class ProductsSection extends BaseSection {
                 .map(Double::parseDouble)
                 .collect(Collectors.toList());
     }
+    
+    public int getProductCount() {
+        return products.size();
+    }
 }

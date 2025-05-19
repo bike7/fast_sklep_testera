@@ -9,14 +9,17 @@ import pl.akademiaqa.page_objects.pages.ArtPage;
 public class FilterBySection extends BaseSection {
     private Locator leftPriceSlider;
     private Locator priceSliderValues;
-
     private Locator grayLoadingOverlay;
+    private Locator mattPaperCheckbox;
+    private Locator availableCheckbox;
 
     public FilterBySection(Page page) {
         super(page);
         leftPriceSlider = page.locator(".ui-slider-handle").first();
         priceSliderValues = page.locator("//ul[@data-slider-label='Price']//p");
         grayLoadingOverlay = page.locator(".overlay__inner");
+        mattPaperCheckbox = page.locator("#search_filters").getByLabel("Matt paper");
+        availableCheckbox = page.locator("#search_filters").getByLabel("Available");
     }
 
     public ArtPage getArtPage() {
@@ -54,6 +57,26 @@ public class FilterBySection extends BaseSection {
             page.waitForCondition(() -> grayLoadingOverlay.isHidden());
         }
         return this;
+    }
+
+    public FilterBySection selectFilterCheckbox(FilterCheckboxes selectedCheckbox) {
+        switch (selectedCheckbox) {
+            case MATT_PAPER:
+                mattPaperCheckbox.check();
+                break;
+            case AVAILABLE:
+                availableCheckbox.check();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown filter checkbox: " + selectedCheckbox);
+        }
+        page.waitForCondition(() -> grayLoadingOverlay.isHidden());
+        return this;
+    }
+
+    public enum FilterCheckboxes {
+        MATT_PAPER,
+        AVAILABLE;
     }
 
     private double getPriceSliderLeftValue() {
