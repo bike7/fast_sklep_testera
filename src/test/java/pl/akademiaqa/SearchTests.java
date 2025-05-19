@@ -24,8 +24,7 @@ class SearchTests extends TestFixtures {
                 .getTopMenuAndSearchSection()
                 .searchForProduct(productName)
                 .getSearchResultsSection()
-                .getProducts()
-                .size();
+                .getNumberOfProducts();
 
         assertThat(actualSearchResultsSize).isEqualTo(expectedSearchResultsSize);
     }

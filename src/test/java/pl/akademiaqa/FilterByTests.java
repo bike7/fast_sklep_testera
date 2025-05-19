@@ -13,12 +13,12 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FilterByTests extends TestFixtures {
+class FilterByTests extends TestFixtures {
 
     @DisplayName("Filter products by different criteria")
     @ParameterizedTest(name = "Should return {1} product(s) when filtering by {0}")
     @MethodSource("provideFilterData")
-    public void shouldFilterProducts(FilterBySection.FilterCheckboxes filterType, int expectedProductCount) {
+    void shouldFilterProducts(FilterBySection.FilterCheckboxes filterType, int expectedProductCount) {
         int actualProductCount = new HomePage(page)
                 .navigate()
                 .setPageLanguage(TopNavigationSection.PageLanguage.ENGLISH)
@@ -28,7 +28,7 @@ public class FilterByTests extends TestFixtures {
                 .selectFilterCheckbox(filterType)
                 .getArtPage()
                 .getProductsSection()
-                .getProductCount();
+                .getNumberOfProducts();
 
         assertThat(actualProductCount).isEqualTo(expectedProductCount);
     }

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class ProductsSection extends BaseSection {
     List<Locator> products;
     List<Locator> productsPrices;
-    private Page page;
 
     public ProductsSection(Page page) {
         super(page);
@@ -22,12 +21,12 @@ public class ProductsSection extends BaseSection {
         return productsPrices
                 .stream()
                 .map(Locator::innerText)
-                .map(s -> s.replaceAll("zł", ""))
+                .map(s -> s.replace("zł", ""))
                 .map(Double::parseDouble)
                 .collect(Collectors.toList());
     }
-    
-    public int getProductCount() {
+
+    public int getNumberOfProducts() {
         return products.size();
     }
 }

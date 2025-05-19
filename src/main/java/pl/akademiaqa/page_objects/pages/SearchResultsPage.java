@@ -7,10 +7,11 @@ import pl.akademiaqa.page_objects.sections.search.SearchResultsSection;
 
 @Getter
 public class SearchResultsPage extends BasePage {
-    private SearchResultsSection searchResultsSection;
+    private final SearchResultsSection searchResultsSection;
 
     public SearchResultsPage(Page page) {
         super(page);
         this.searchResultsSection = new SearchResultsSection(page);
     }
+
 }
