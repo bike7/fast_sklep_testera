@@ -13,7 +13,7 @@ public class ShoppingCartPage extends BasePage {
         proceedToCheckoutButton = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Proceed to checkout"));
     }
 
-    public ShippingDetailsPage proceedToCheckout() {
+    public ShippingDetailsPage proceedToCheckoutOnShoppingCart() {
         proceedToCheckoutButton.click();
         return new ShippingDetailsPage(page);
     }

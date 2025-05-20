@@ -14,7 +14,7 @@ public class ProductSummaryModal extends BasePage {
         proceedToCheckoutButton = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Proceed to checkout"));
     }
 
-    public ShoppingCartPage proceedToCheckout() {
+    public ShoppingCartPage proceedToCheckoutOnModal() {
         proceedToCheckoutButton.click();
         return new ShoppingCartPage(page);
     }

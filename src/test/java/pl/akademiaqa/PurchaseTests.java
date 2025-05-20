@@ -1,6 +1,7 @@
 package pl.akademiaqa;
 
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
@@ -15,6 +16,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PurchaseTests extends TestFixtures {
+
+    private TopMenuSection topMenu;
+
+    @BeforeEach
+    void setUp() {
+        topMenu = new HomePage(page)
+                .navigate()
+                .getTopMenuSection()
+                .setPageLanguageTo(TopMenuSection.PageLanguage.ENGLISH);
+    }
 
     @DisplayName("Should purchase customizable mug")
     @Test
@@ -32,17 +43,14 @@ class PurchaseTests extends TestFixtures {
         ShippingMethodSection.DeliveryMethod deliveryMethod = ShippingMethodSection.DeliveryMethod.CLICK_AND_COLLECT;
         PaymentSection.PaymentType paymentType = PaymentSection.PaymentType.CASH_ON_DELIVERY;
 
-        OrderConfirmationPage orderConfirmationPage = new HomePage(page)
-                .navigate()
-                .getTopMenuSection()
-                .setPageLanguageTo(TopMenuSection.PageLanguage.ENGLISH)
+        OrderConfirmationPage orderConfirmationPage = topMenu
                 .searchForProduct(productName)
                 .getProductListSection()
                 .openProductDetails(productName)
                 .saveCustomizationMessage(customizationMessage)
                 .addToCart()
-                .proceedToCheckout()
-                .proceedToCheckout()
+                .proceedToCheckoutOnModal()
+                .proceedToCheckoutOnShoppingCart()
                 .fillInPersonalInformationSection(socialTitle, firstname, lastname, email)
                 .fillInAddressSection(address, zipCode, city)
                 .fillInShippingMethodSection(deliveryMethod)
