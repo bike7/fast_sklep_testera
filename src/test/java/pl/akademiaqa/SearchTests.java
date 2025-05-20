@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pl.akademiaqa.common.TestFixtures;
 import pl.akademiaqa.page_objects.pages.HomePage;
-import pl.akademiaqa.page_objects.sections.search.TopNavigationSection;
+import pl.akademiaqa.page_objects.sections.TopMenuSection;
 
 import java.util.stream.Stream;
 
@@ -20,10 +20,10 @@ class SearchTests extends TestFixtures {
     void should_return_products_by_product_name(String productName, int expectedSearchResultsSize) {
         int actualSearchResultsSize = new HomePage(page)
                 .navigate()
-                .setPageLanguage(TopNavigationSection.PageLanguage.POLSKI)
-                .getTopMenuAndSearchSection()
+                .getTopMenuSection()
+                .setPageLanguageTo(TopMenuSection.PageLanguage.POLSKI)
                 .searchForProduct(productName)
-                .getSearchResultsSection()
+                .getProductListSection()
                 .getNumberOfProducts();
 
         assertThat(actualSearchResultsSize).isEqualTo(expectedSearchResultsSize);

@@ -1,4 +1,4 @@
-package pl.akademiaqa.page_objects.sections.products;
+package pl.akademiaqa.page_objects.sections;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;

@@ -1,10 +1,18 @@
 package pl.akademiaqa;
 
-import org.assertj.core.api.Assertions;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
 import pl.akademiaqa.page_objects.pages.HomePage;
+import pl.akademiaqa.page_objects.pages.OrderConfirmationPage;
+import pl.akademiaqa.page_objects.sections.TopMenuSection;
+import pl.akademiaqa.page_objects.sections.shippingdetails.PaymentSection;
+import pl.akademiaqa.page_objects.sections.shippingdetails.PersonalInformationSection;
+import pl.akademiaqa.page_objects.sections.shippingdetails.ShippingMethodSection;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PurchaseTests extends TestFixtures {
 
@@ -12,15 +20,40 @@ class PurchaseTests extends TestFixtures {
     @Test
     void shouldPurchaseCustomizableMug() {
         String productName = "Customizable mug";
+        Faker faker = new Faker();
+        String customizationMessage = faker.backToTheFuture().quote();
+        PersonalInformationSection.SocialTitle socialTitle = PersonalInformationSection.SocialTitle.MRS;
+        String firstname = faker.name().firstName();
+        String lastname = faker.name().lastName();
+        String email = firstname + "@" + lastname + ".com";
+        String address = faker.address().streetAddress();
+        String zipCode = faker.numerify("##-###");
+        String city = faker.address().city();
+        ShippingMethodSection.DeliveryMethod deliveryMethod = ShippingMethodSection.DeliveryMethod.CLICK_AND_COLLECT;
+        PaymentSection.PaymentType paymentType = PaymentSection.PaymentType.CASH_ON_DELIVERY;
 
-        new HomePage(page)
+        OrderConfirmationPage orderConfirmationPage = new HomePage(page)
                 .navigate()
-                .getTopMenuAndSearchSection()
+                .getTopMenuSection()
+                .setPageLanguageTo(TopMenuSection.PageLanguage.ENGLISH)
                 .searchForProduct(productName)
-                .getSearchResultsSection()
-                .openProductDetails(productName);
-        //page.pause();
+                .getProductListSection()
+                .openProductDetails(productName)
+                .saveCustomizationMessage(customizationMessage)
+                .addToCart()
+                .proceedToCheckout()
+                .proceedToCheckout()
+                .fillInPersonalInformationSection(socialTitle, firstname, lastname, email)
+                .fillInAddressSection(address, zipCode, city)
+                .fillInShippingMethodSection(deliveryMethod)
+                .fillInPaymentSection(paymentType)
+                .placeOrder();
 
-        Assertions.assertThat(true).isTrue();
+        assertAll(
+                () -> assertThat(orderConfirmationPage.getOrderedItemName()).contains(productName),
+                () -> assertThat(orderConfirmationPage.getProductCustomizationText()).contains(customizationMessage),
+                () -> assertThat(orderConfirmationPage.getPaymentMethod()).contains("Cash on delivery"),
+                () -> assertThat(orderConfirmationPage.getShippingMethod()).contains("Click and collect"));
     }
 }
+
