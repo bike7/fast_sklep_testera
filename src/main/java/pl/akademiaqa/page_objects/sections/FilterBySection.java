@@ -1,4 +1,4 @@
-package pl.akademiaqa.page_objects.sections.products;
+package pl.akademiaqa.page_objects.sections;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -7,11 +7,11 @@ import pl.akademiaqa.page_objects.common.BaseSection;
 import pl.akademiaqa.page_objects.pages.ArtPage;
 
 public class FilterBySection extends BaseSection {
-    private Locator leftPriceSlider;
-    private Locator priceSliderValues;
-    private Locator grayLoadingOverlay;
-    private Locator mattPaperCheckbox;
-    private Locator availableCheckbox;
+    private final Locator leftPriceSlider;
+    private final Locator priceSliderValues;
+    private final Locator grayLoadingOverlay;
+    private final Locator mattPaperCheckbox;
+    private final Locator availableCheckbox;
 
     public FilterBySection(Page page) {
         super(page);
@@ -44,7 +44,7 @@ public class FilterBySection extends BaseSection {
             page.mouse().down();
             page.mouse().move(x + width, y);
             page.mouse().up();
-            page.waitForCondition(() -> grayLoadingOverlay.isHidden());
+            page.waitForCondition(grayLoadingOverlay::isHidden);
         }
         return this;
     }
@@ -54,37 +54,31 @@ public class FilterBySection extends BaseSection {
             leftPriceSlider.scrollIntoViewIfNeeded();
             leftPriceSlider.focus();
             page.keyboard().press("ArrowRight");
-            page.waitForCondition(() -> grayLoadingOverlay.isHidden());
+            page.waitForCondition(grayLoadingOverlay::isHidden);
         }
         return this;
     }
 
     public FilterBySection selectFilterCheckbox(FilterCheckboxes selectedCheckbox) {
         switch (selectedCheckbox) {
-            case MATT_PAPER:
-                mattPaperCheckbox.check();
-                break;
-            case AVAILABLE:
-                availableCheckbox.check();
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown filter checkbox: " + selectedCheckbox);
+            case MATT_PAPER -> mattPaperCheckbox.check();
+            case AVAILABLE -> availableCheckbox.check();
+            default -> throw new IllegalArgumentException("Unknown filter checkbox: " + selectedCheckbox);
         }
-        page.waitForCondition(() -> grayLoadingOverlay.isHidden());
+        page.waitForCondition(grayLoadingOverlay::isHidden);
         return this;
     }
 
     public enum FilterCheckboxes {
         MATT_PAPER,
-        AVAILABLE;
+        AVAILABLE
     }
 
     private double getPriceSliderLeftValue() {
-        Double d = Double.parseDouble(
+        return Double.parseDouble(
                 priceSliderValues
                         .innerText()
                         .split(" ")[0]
                         .replace("zł", ""));
-        return d;
     }
 }

@@ -1,34 +1,43 @@
 package pl.akademiaqa;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import pl.akademiaqa.common.TestFixtures;
+import pl.akademiaqa.page_objects.pages.ArtPage;
 import pl.akademiaqa.page_objects.pages.HomePage;
-import pl.akademiaqa.page_objects.sections.products.FilterBySection;
-import pl.akademiaqa.page_objects.sections.search.TopNavigationSection;
+import pl.akademiaqa.page_objects.sections.FilterBySection;
+import pl.akademiaqa.page_objects.sections.TopMenuSection;
 
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FilterByTests extends TestFixtures {
+class FilterByTests extends TestFixtures {
+
+    private ArtPage artPage;
+
+    @BeforeEach
+    void setUp() {
+        artPage = new HomePage(page)
+                .navigate()
+                .getTopMenuSection()
+                .setPageLanguageTo(TopMenuSection.PageLanguage.ENGLISH)
+                .clickArtLink();
+    }
 
     @DisplayName("Filter products by different criteria")
     @ParameterizedTest(name = "Should return {1} product(s) when filtering by {0}")
     @MethodSource("provideFilterData")
-    public void shouldFilterProducts(FilterBySection.FilterCheckboxes filterType, int expectedProductCount) {
-        int actualProductCount = new HomePage(page)
-                .navigate()
-                .setPageLanguage(TopNavigationSection.PageLanguage.ENGLISH)
-                .getTopMenuAndSearchSection()
-                .clickArtLink()
+    void shouldFilterProducts(FilterBySection.FilterCheckboxes filterType, int expectedProductCount) {
+        int actualProductCount = artPage
                 .getFilterBySection()
                 .selectFilterCheckbox(filterType)
                 .getArtPage()
-                .getProductsSection()
-                .getProductCount();
+                .getProductListSection()
+                .getNumberOfProducts();
 
         assertThat(actualProductCount).isEqualTo(expectedProductCount);
     }

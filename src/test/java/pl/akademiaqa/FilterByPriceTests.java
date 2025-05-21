@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import pl.akademiaqa.common.TestFixtures;
 import pl.akademiaqa.page_objects.pages.ArtPage;
 import pl.akademiaqa.page_objects.pages.HomePage;
-import pl.akademiaqa.page_objects.sections.search.TopNavigationSection;
+import pl.akademiaqa.page_objects.sections.TopMenuSection;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ class FilterByPriceTests extends TestFixtures {
     void setUp() {
         artPage = new HomePage(page)
                 .navigate()
-                .setPageLanguage(TopNavigationSection.PageLanguage.ENGLISH)
-                .getTopMenuAndSearchSection()
+                .getTopMenuSection()
+                .setPageLanguageTo(TopMenuSection.PageLanguage.ENGLISH)
                 .clickArtLink();
     }
 
@@ -32,7 +32,7 @@ class FilterByPriceTests extends TestFixtures {
                 .getFilterBySection()
                 .filterByPriceUsingUrl(priceThreshold)
                 .getArtPage()
-                .getProductsSection()
+                .getProductListSection()
                 .getProductPrices();
 
         assertPricesAboveThreshold(prices);
@@ -45,7 +45,7 @@ class FilterByPriceTests extends TestFixtures {
                 .getFilterBySection()
                 .filterByPriceUsingMouse(priceThreshold)
                 .getArtPage()
-                .getProductsSection()
+                .getProductListSection()
                 .getProductPrices();
 
         assertPricesAboveThreshold(prices);
@@ -58,7 +58,7 @@ class FilterByPriceTests extends TestFixtures {
                 .getFilterBySection()
                 .filterByPriceUsingKeyboard(priceThreshold)
                 .getArtPage()
-                .getProductsSection()
+                .getProductListSection()
                 .getProductPrices();
 
         assertPricesAboveThreshold(prices);
